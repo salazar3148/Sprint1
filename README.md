@@ -1,3 +1,7 @@
+## Caracteristicas
+- El sistema empieza cuenta con un solo usuario administrador, el debería iniciar sesión principalmente para llenar de dinero el cajero
+- Para añadir más usuarios,cada uno se tiene que registrar desde el menu principal.
+
 ## Login basico
 ### Iniciar sesion
 - El usuario ingresa con su cedula

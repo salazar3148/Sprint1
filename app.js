@@ -1,14 +1,23 @@
 const usuarios = [
     {
-        cedula: 1001750725,
+        //cedula: 1001750725,
+        cedula: 1,
         contrasena: "admin",
         rol: "administrador"
     }
 ]
 
+cajero = {
+    b5 : 0,
+    b10 : 0,
+    b20 : 0,
+    b50 : 0,
+    b100 : 0
+}
+
 let parar = false;
 
-const menu = () => "1. Iniciar Sesión\n" +
+const login = () => "1. Iniciar Sesión\n" +
                    "2. Registrarse\n" +
                    "3. Salir\n" +
                    "-> Ingrese una opción";
@@ -23,10 +32,18 @@ const registrarse = (cedula, contrasena) => {
     });
 }
 
+const menuAdministrador = () => {
+    let index = 0; 
+    const nombres = [5, 10, 20, 50, 100];
+    Object.keys(cajero).forEach(billetes => {
+        cajero[billetes] = parseInt(prompt(`¿Cuantos billetes de ${nombres[index++]} mil pesos va a ingresar?`))
+    });
+}
+
 let cedula, contrasena, usuario;
 while(!parar){
 
-    const opc = prompt(menu());
+    const opc = prompt(login());
     switch(opc){
         case '1':
             cedula = parseInt(prompt("Ingrese la cedula: "));
@@ -35,7 +52,10 @@ while(!parar){
                 contrasena = prompt("Ingrese su contraseña: ");
                 if(contrasena === usuario.contrasena){
                     
-                    //logic here
+                    if(usuario.rol === 'administrador'){
+                        menuAdministrador();
+
+                    }
 
                 }else alert("Contraseña incorrecta!");
             }else alert("No hay un usuario registrado con esa cedula");
