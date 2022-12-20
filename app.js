@@ -109,7 +109,7 @@ while (!parar) {
                         menuAdministrador();
                         reporte();
                     } else {
-                        if (total > 0) {
+                        if (TotalCajero > 0) {
                             const cantidad = validarEntero("¿Cuánto quiere retirar?");
                             const total = retiro(cantidad);
                             cantidad == total ? alert(`Usted retiró exactamente ${cantidad}`) :
