@@ -16,84 +16,118 @@ const usuarios = [
     }
 ]
 
-cajero = {
-    5 : 0,
-    10 : 0,
-    20 : 0,
-    50 : 0,
-    100 : 0
+const cajero = {
+    100000: 0,
+    50000: 0,
+    20000: 0,
+    10000: 0,
+    5000: 0
 }
 
+let TotalCajero;
 let parar = false;
 
+const validarString = (mensaje) => {
+    let str;
+    do str = prompt(mensaje);
+    while (str === "");
+    return str;
+}
+
+const validarEntero = (mensaje) => {
+    let integer;
+    do integer = parseInt(prompt(mensaje));
+    while (integer < 0 || isNaN(integer));
+    return integer;
+}
+
 const login = () => "1. Iniciar Sesión\n" +
-                   "2. Registrarse\n" +
-                   "3. Salir\n" +
-                   "-> Ingrese una opción";
+    "2. Registrarse\n" +
+    "3. Salir\n" +
+    "-> Ingrese una opción";
 
 const buscarUsuario = (cedula) => usuarios.find((usuario) => usuario.cedula == cedula);
- 
+
 const registrarse = (cedula, contrasena) => {
     usuarios.push({
         cedula: cedula,
         contrasena: contrasena,
-        rol:"usuario"
+        rol: "usuario"
     });
 }
 
 const menuAdministrador = () => {
     Object.keys(cajero).forEach(billetes => {
-        cajero[billetes] = parseInt(prompt(`¿Cuantos billetes de ${billetes} mil pesos va a ingresar?`))
+        cajero[billetes] = validarEntero(`¿Cuantos billetes de ${billetes} mil pesos va a ingresar?`)
     });
 }
 
 const reporte = () => {
-    let suma = 0;
+    TotalCajero = 0;
+    let mensaje = "";
     Object.keys(cajero).forEach(billetes => {
-        const totalporbillete = (billetes * 1000) * cajero[billetes]
-        alert(`Hay ${totalporbillete}$ En billetes de ${billetes} Mil pesos`);
-        suma += totalporbillete;
+        const totalporbillete = (billetes) * cajero[billetes]
+        mensaje += `Hay ${totalporbillete}$ En billetes de ${billetes} Mil pesos\n`;
+        TotalCajero += totalporbillete;
     });
-    alert(`Hay en total ${suma}$ pesos`);
+    alert(mensaje);
+    alert(`Hay en total ${TotalCajero}$ pesos`);
 }
 
 const retiro = (cantidad) => {
-    Object.keys(cajero).forEach(billetes => {
+    let maximoARetirar = 0;
+    Object.keys(cajero).reverse().forEach(billetes => {
+        const cantBilletes = cajero[billetes];
+        const divEntera = Math.trunc(cantidad / billetes);
+        const billetesAUsar = divEntera > cantBilletes ? cantBilletes : divEntera;
+        const total = billetesAUsar * billetes;
 
-    }) 
+        if (cantidad >= billetes && cantBilletes > 0) {
+            cajero[billetes] -= billetesAUsar;
+            cantidad -= total;
+            maximoARetirar += total;
+        }
+    })
+    return maximoARetirar;
 }
 
 let cedula, contrasena, usuario;
 menuAdministrador();
 reporte();
 
-while(!parar){
-    const opc = prompt(login());
-    switch(opc){
+while (!parar) {
+    const opc = validarString(login());
+    switch (opc) {
         case '1':
-            cedula = parseInt(prompt("Ingrese la cedula: "));
+            cedula = validarEntero("Ingrese la cedula: ");
             usuario = buscarUsuario(cedula);
-            if(usuario){
-                contrasena = prompt("Ingrese su contraseña: ");
-                if(contrasena === usuario.contrasena){
-                    
-                    if(usuario.rol === 'administrador'){
+            if (usuario) {
+                contrasena = validarString("Ingrese su contraseña: ");
+                if (contrasena === usuario.contrasena) {
+                    if (usuario.rol === 'administrador') {
                         menuAdministrador();
                         menuAdministrador();
                         reporte();
                     } else {
-                        alert(`${Math.trunc(46000 / 20000)}`)
+                        if (total > 0) {
+                            const cantidad = validarEntero("¿Cuánto quiere retirar?");
+                            const total = retiro(cantidad);
+                            cantidad == total ? alert(`Usted retiró exactamente ${cantidad}`) :
+                                alert(`El cajero solo le pudó dar ${total}`)
+                            reporte();
+                        } else {
+                            alert("El cajero está en mantenimiento");
+                        }
                     }
-
-                }else alert("Contraseña incorrecta!");
-            }else alert("No hay un usuario registrado con esa cedula");
+                } else alert("Contraseña incorrecta!");
+            } else alert("No hay un usuario registrado con esa cedula");
             break;
         case '2':
-            cedula = parseInt(prompt("Ingrese su cedula: "));
+            cedula = validarEntero("Ingrese su cedula: ");
             usuario = buscarUsuario(cedula);
-            if(usuario) alert("Su cedula ya está registrada");
+            if (usuario) alert("Su cedula ya está registrada");
             else {
-                contrasena = prompt("Ingrese su contraseña nueva: ");
+                contrasena = validarString("Ingrese su contraseña nueva: ");
                 registrarse(cedula, contrasena);
                 alert("Usuario registrado con exito!");
             }
