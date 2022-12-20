@@ -1,18 +1,27 @@
 const usuarios = [
     {
-        //cedula: 1001750725,
-        cedula: 1,
+        cedula: 1001,
         contrasena: "admin",
         rol: "administrador"
+    },
+    {
+        cedula: 1002,
+        contrasena: "abc123",
+        rol: "usuario"
+    },
+    {
+        cedula: 1003,
+        contrasena: "xyz789",
+        rol: "usuario"
     }
 ]
 
 cajero = {
-    b5 : 0,
-    b10 : 0,
-    b20 : 0,
-    b50 : 0,
-    b100 : 0
+    5 : 0,
+    10 : 0,
+    20 : 0,
+    50 : 0,
+    100 : 0
 }
 
 let parar = false;
@@ -33,16 +42,32 @@ const registrarse = (cedula, contrasena) => {
 }
 
 const menuAdministrador = () => {
-    let index = 0; 
-    const nombres = [5, 10, 20, 50, 100];
     Object.keys(cajero).forEach(billetes => {
-        cajero[billetes] = parseInt(prompt(`¿Cuantos billetes de ${nombres[index++]} mil pesos va a ingresar?`))
+        cajero[billetes] = parseInt(prompt(`¿Cuantos billetes de ${billetes} mil pesos va a ingresar?`))
     });
 }
 
-let cedula, contrasena, usuario;
-while(!parar){
+const reporte = () => {
+    let suma = 0;
+    Object.keys(cajero).forEach(billetes => {
+        const totalporbillete = (billetes * 1000) * cajero[billetes]
+        alert(`Hay ${totalporbillete}$ En billetes de ${billetes} Mil pesos`);
+        suma += totalporbillete;
+    });
+    alert(`Hay en total ${suma}$ pesos`);
+}
 
+const retiro = (cantidad) => {
+    Object.keys(cajero).forEach(billetes => {
+
+    }) 
+}
+
+let cedula, contrasena, usuario;
+menuAdministrador();
+reporte();
+
+while(!parar){
     const opc = prompt(login());
     switch(opc){
         case '1':
@@ -54,8 +79,10 @@ while(!parar){
                     
                     if(usuario.rol === 'administrador'){
                         menuAdministrador();
+                        menuAdministrador();
+                        reporte();
                     } else {
-                        
+                        alert(`${Math.trunc(46000 / 20000)}`)
                     }
 
                 }else alert("Contraseña incorrecta!");
@@ -69,7 +96,6 @@ while(!parar){
                 contrasena = prompt("Ingrese su contraseña nueva: ");
                 registrarse(cedula, contrasena);
                 alert("Usuario registrado con exito!");
-                alert(usuarios);
             }
             break;
         case '3':
