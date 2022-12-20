@@ -54,7 +54,8 @@ while(!parar){
                     
                     if(usuario.rol === 'administrador'){
                         menuAdministrador();
-
+                    } else {
+                        
                     }
 
                 }else alert("Contraseña incorrecta!");
