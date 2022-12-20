@@ -1,6 +1,6 @@
 ## Caracteristicas
 - El sistema empieza cuenta con un solo usuario administrador y 3 Usuarios
-Para añadir más usuarios,cada uno se tiene que registrar desde el menu principal
+- Para añadir más usuarios, cada uno se tiene que registrar desde el menu principal
 - Inmediatamente inicia el programa el administrador procede a recargar el cajero
 - El programa solo se detendra cuando el usuario asi lo requiera
 
@@ -26,5 +26,6 @@ Para añadir más usuarios,cada uno se tiene que registrar desde el menu princip
 - Si el cajero está en 0$, se le notificará inmediatamente al usuario.
 
 ### Administrador
+#### Recargar Cajero
 - Podrá rellenar el cajero por cada tipo de billete (5000, 10000, 20000, 50000, 100000)
 - Decidirá si llenarlo con 0 o más.
