@@ -67,7 +67,7 @@ const reporte = () => {
     let mensaje = "";
     Object.keys(cajero).forEach(billetes => {
         const totalporbillete = (billetes) * cajero[billetes]
-        mensaje += `Hay ${totalporbillete}$ En billetes de ${billetes} Mil pesos\n`;
+        mensaje += `Hay ${totalporbillete}$ En billetes de ${billetes} pesos\n`;
         TotalCajero += totalporbillete;
     });
     alert(mensaje);
@@ -140,17 +140,3 @@ while (!parar) {
             alert("Elija una opción correcta por favor!")
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
