@@ -25,7 +25,6 @@ const cajero = {
 }
 
 let TotalCajero;
-let parar = false;
 
 const validarString = (mensaje) => {
     let str;
@@ -58,7 +57,7 @@ const registrarse = (cedula, contrasena) => {
 
 const menuAdministrador = () => {
     Object.keys(cajero).forEach(billetes => {
-        cajero[billetes] = validarEntero(`¿Cuantos billetes de ${billetes} mil pesos va a ingresar?`)
+        cajero[billetes] = validarEntero(`¿Cuantos billetes de ${billetes}$ pesos va a ingresar?`)
     });
 }
 
@@ -67,7 +66,7 @@ const reporte = () => {
     let mensaje = "";
     Object.keys(cajero).forEach(billetes => {
         const totalporbillete = (billetes) * cajero[billetes]
-        mensaje += `Hay ${totalporbillete}$ En billetes de ${billetes} pesos\n`;
+        mensaje += `Hay ${totalporbillete}$ En billetes de ${billetes}$ pesos\n`;
         TotalCajero += totalporbillete;
     });
     alert(mensaje);
@@ -92,6 +91,7 @@ const retiro = (cantidad) => {
 }
 
 let cedula, contrasena, usuario;
+let parar = false;
 menuAdministrador();
 reporte();
 
@@ -101,26 +101,29 @@ while (!parar) {
         case '1':
             cedula = validarEntero("Ingrese la cedula: ");
             usuario = buscarUsuario(cedula);
-            if (usuario) {
-                contrasena = validarString("Ingrese su contraseña: ");
-                if (contrasena === usuario.contrasena) {
-                    if (usuario.rol === 'administrador') {
-                        menuAdministrador();
-                        menuAdministrador();
-                        reporte();
-                    } else {
-                        if (TotalCajero > 0) {
-                            const cantidad = validarEntero("¿Cuánto quiere retirar?");
-                            const total = retiro(cantidad);
-                            cantidad == total ? alert(`Usted retiró exactamente ${cantidad}`) :
-                                alert(`El cajero solo le pudó dar ${total}`)
-                            reporte();
-                        } else {
-                            alert("El cajero está en mantenimiento");
-                        }
-                    }
-                } else alert("Contraseña incorrecta!");
-            } else alert("No hay un usuario registrado con esa cedula");
+            if (!usuario) {
+                alert("No hay un usuario registrado con esa cedula");
+                break;
+            }
+            contrasena = validarString("Ingrese su contraseña: ");
+            if (contrasena !== usuario.contrasena) {
+                alert("Contraseña incorrecta!");
+                break;
+            }
+            if (usuario.rol === 'administrador') {
+                menuAdministrador();
+                reporte();
+                break;
+            }
+            if (!(TotalCajero > 0)) {
+                alert("El cajero está en mantenimiento")
+                break;
+            }
+            const cantidad = validarEntero("¿Cuánto quiere retirar?");
+            const total = retiro(cantidad);
+            cantidad == total ? alert(`Usted retiró exactamente ${cantidad}`) :
+                alert(`El cajero solo le pudó dar ${total}`)
+            reporte();
             break;
         case '2':
             cedula = validarEntero("Ingrese su cedula: ");
