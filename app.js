@@ -75,6 +75,7 @@ const reporte = () => {
 
 const retiro = (cantidad) => {
     let maximoARetirar = 0;
+    let mensaje = "";
     Object.keys(cajero).reverse().forEach(billetes => {
         const cantBilletes = cajero[billetes];
         const divEntera = Math.trunc(cantidad / billetes);
@@ -82,11 +83,14 @@ const retiro = (cantidad) => {
         const total = billetesAUsar * billetes;
 
         if (cantidad >= billetes && cantBilletes > 0) {
+            mensaje += `Se le dió ${billetesAUsar} billete(s) de ${billetes}$ pesos.\n`
             cajero[billetes] -= billetesAUsar;
             cantidad -= total;
             maximoARetirar += total;
         }
     })
+    console.log(mensaje);
+    alert(mensaje)
     return maximoARetirar;
 }
 
