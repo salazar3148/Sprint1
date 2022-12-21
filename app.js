@@ -57,7 +57,7 @@ const registrarse = (cedula, contrasena) => {
 
 const menuAdministrador = () => {
     Object.keys(cajero).forEach(billetes => {
-        cajero[billetes] = validarEntero(`¿Cuantos billetes de ${billetes}$ pesos va a ingresar?`)
+        cajero[billetes] += validarEntero(`¿Cuantos billetes de ${billetes}$ pesos va a ingresar?`)
     });
 }
 
